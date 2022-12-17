@@ -36,11 +36,20 @@ namespace CosMart.JoyTech.WebApi.Controllers
         }
 
         [HttpGet("subjects/{subject}")]
-        public async Task<IActionResult> GetBooksBySubject(string subject)
+        public async Task<IActionResult> GetBooksBySubject(string subject, bool details)
         {
             try
             {
-                return Ok();
+                if (details)
+                {
+                    var data = await bookService.GetDataBySubjectWithDetail(subject);
+                    return Ok(data);
+                }    
+                else
+                {
+                    var data = await bookService.GetDataBySubject(subject);
+                    return Ok(data);
+                }
             }
             catch (Exception ex)
             {

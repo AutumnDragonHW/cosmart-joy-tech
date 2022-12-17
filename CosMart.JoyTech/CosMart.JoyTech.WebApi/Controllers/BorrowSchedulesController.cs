@@ -23,7 +23,6 @@ namespace CosMart.JoyTech.WebApi.Controllers
             this.borrowScheduleService = borrowScheduleService;
         }
 
-        // GET: api/<BorrowSchedulesController>
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] DateTime date)
         {
@@ -38,7 +37,6 @@ namespace CosMart.JoyTech.WebApi.Controllers
             }
         }
 
-        // GET api/<BorrowSchedulesController>/5
         [HttpGet("BookId/{bookId}")]
         public async Task<IActionResult> Get([FromRoute] string bookId)
         {

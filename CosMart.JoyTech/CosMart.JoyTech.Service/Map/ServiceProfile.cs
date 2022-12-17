@@ -24,6 +24,18 @@ namespace CosMart.JoyTech.Service.Map
 
             CreateMap<BorrowScheduleModel, BorrowScheduleDto>().ReverseMap();
             CreateMap<BorrowScheduleRequestDto, BorrowScheduleDto>();
+
+            CreateMap<SubjectDataModel, SubjectResponseDto>()
+                .ForMember(dest => dest.Key, opt => opt.MapFrom(src => "/subjects/" + src.Name));
+            CreateMap<SubjectDataModel, SubjectResponseWithDetailDto>()
+                .ForMember(dest => dest.Key, opt => opt.MapFrom(src => "/subjects/" + src.Name));
+            CreateMap<SubjectDataSubjectModel, SubjectDataSubjectDto>();
+            CreateMap<SubjectDataPlaceModel, SubjectDataPlaceDto>();
+            CreateMap<SubjectDataPeopleModel, SubjectDataPeopleDto>();
+            CreateMap<SubjectDataTimeModel, SubjectDataTimeDto>();
+            CreateMap<SubjectDataAuthorModel, SubjectDataAuthorDto>();
+            CreateMap<SubjectDataPublisherModel, SubjectDataPublisherDto>();
+            CreateMap<SubjectDataLanguageModel, SubjectDataLanguageDto>();
         }
     }
 }

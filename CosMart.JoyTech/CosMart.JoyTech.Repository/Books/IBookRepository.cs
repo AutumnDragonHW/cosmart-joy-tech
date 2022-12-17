@@ -8,6 +8,7 @@ namespace CosMart.JoyTech.Repository.Books
     public interface IBookRepository
     {
         Task<BookModel> GetBook(string id);
-        Task<SubjectDataModel> GetData(string subject);
+        Task<List<BookModel>> GetBookBySubject(string subject);
+        Task<SubjectDataModel> GetDataBySubject(string subject);
     }
 }
