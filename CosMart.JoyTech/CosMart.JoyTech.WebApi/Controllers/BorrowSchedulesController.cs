@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CosMart.JoyTech.Service.Book.Exceptions;
 using CosMart.JoyTech.Service.BorrowSchedule;
 using CosMart.JoyTech.Service.BorrowSchedule.Request;
 using Microsoft.AspNetCore.Http;
@@ -59,7 +60,12 @@ namespace CosMart.JoyTech.WebApi.Controllers
             try
             {
                 await borrowScheduleService.ScheduleBorrowBook(borrowScheduleDto);
-                return Ok();
+                borrowScheduleDto.ScheduleDate = borrowScheduleDto.ScheduleDate.Date;
+                return Created("BookId/" + borrowScheduleDto.BookId, borrowScheduleDto);
+            }
+            catch(BookNotFoundException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

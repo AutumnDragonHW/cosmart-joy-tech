@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CosMart.JoyTech.Service.Book;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,36 +14,38 @@ namespace CosMart.JoyTech.WebApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        // GET: api/<BooksController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IBookService bookService;
+
+        public BooksController(IBookService bookService)
         {
-            return new string[] { "value1", "value2" };
+            this.bookService = bookService;
         }
 
-        // GET api/<BooksController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            return "value";
+            try
+            {
+                var data = await bookService.GetBook(id);
+                return Ok(data);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.GetBaseException());
+            }
         }
 
-        //// POST api/<BooksController>
-        //[HttpPost]
-        //public void Post([FromBody] string value)
-        //{
-        //}
-
-        //// PUT api/<BooksController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        //// DELETE api/<BooksController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpGet("subjects/{subject}")]
+        public async Task<IActionResult> GetBooksBySubject(string subject)
+        {
+            try
+            {
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.GetBaseException());
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CosMart.JoyTech.Repository.Books;
 using CosMart.JoyTech.Repository.BorrowSchedules;
+using CosMart.JoyTech.Service.Book;
 using CosMart.JoyTech.Service.BorrowSchedule.Request;
 using System;
 using System.Collections.Generic;
@@ -12,15 +14,18 @@ namespace CosMart.JoyTech.Service.BorrowSchedule
     {
         private readonly IMapper mapper;
         private readonly IBorrowScheduleRepository borrowScheduleRepository;
+        private readonly IBookService bookService;
 
-        public BorrowScheduleService(IMapper mapper, IBorrowScheduleRepository borrowScheduleRepository)
+        public BorrowScheduleService(IMapper mapper, IBorrowScheduleRepository borrowScheduleRepository, IBookService bookService)
         {
             this.mapper = mapper;
             this.borrowScheduleRepository = borrowScheduleRepository;
+            this.bookService = bookService;
         }
 
         public async Task ScheduleBorrowBook(BorrowScheduleDto borrowScheduleDto)
         {
+            var book = await bookService.GetBook(borrowScheduleDto.BookId);
             await borrowScheduleRepository.AddBorrowSchedule(mapper.Map<BorrowScheduleModel>(borrowScheduleDto)).ConfigureAwait(false);
         }
 
